@@ -1,3 +1,6 @@
+using Khumalo_Craft_P2.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Khumalo_Craft_P2
 {
     public class Program
@@ -8,6 +11,9 @@ namespace Khumalo_Craft_P2
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<KhumaloCraftDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftDEV")));
 
             var app = builder.Build();
 
