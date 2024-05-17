@@ -4,51 +4,110 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<style>
+    .product-details-container {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Availability)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Availability)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrlpath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrlpath)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    .container-product {
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .product-details-header {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .product-details-content {
+        padding: 20px 0;
+    }
+
+    .product-image {
+        height: 300px;
+        width: 100%;
+    }
+
+    .product-options {
+        margin-top: 20px;
+    }
+
+    .product-details-label {
+        font-weight: bold;
+    }
+
+    .product-details-value {
+        margin-bottom: 10px;
+    }
+
+    .availability {
+        font-weight: bold;
+    }
+
+    .available-true {
+        color: green;
+    }
+
+    .available-false {
+        color: red;
+    }
+
+</style>
+<div class="container-product">
+    <h1>Details</h1>
+
+    <div class="product-details-container">
+        <div class="product-details-header">
+            Product Details
+        </div>
+        <div class="product-details-content">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img src="@Model.ImageUrlpath" class="product-image" />
+                </div>
+                <div class="col-sm-9">
+                    <div class="product-details-label">Name:</div>
+                    <div class="product-details-value">@Model.Name</div>
+
+                    <div class="product-details-label">Description:</div>
+                    <div class="product-details-value">@Model.ProductDescription</div>
+
+                    <div class="product-details-label">Price:</div>
+                    <div class="product-details-value">@Model.Price</div>
+
+                    <div class="product-details-label">Category:</div>
+                    <div class="product-details-value">@Model.Category</div>
+
+                    <div class="product-details-label">Availability:</div>
+                    <div class="product-details-value availability">
+                        @{
+                            if (Model.Availability.HasValue && Model.Availability.Value)
+                            {
+                                <p class="available-true">Available</p>
+                            }
+                            else
+                            {
+                                <p class="available-false">Out of Stock</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-options">
+        <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="btn btn-primary">Edit</a> |
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+
 </div>
