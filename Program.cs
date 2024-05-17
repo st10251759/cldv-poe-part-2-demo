@@ -1,5 +1,6 @@
 using Khumalo_Craft_P2.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Khumalo_Craft_P2
 {
@@ -14,6 +15,8 @@ namespace Khumalo_Craft_P2
 
             builder.Services.AddDbContext<KhumaloCraftDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftDEV")));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<KhumaloCraftDbContext>();
 
             var app = builder.Build();
 
@@ -31,6 +34,8 @@ namespace Khumalo_Craft_P2
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",
