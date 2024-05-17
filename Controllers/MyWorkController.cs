@@ -1,12 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Khumalo_Craft_P2.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Khumalo_Craft_P2.Controllers
 {
     public class MyWorkController : Controller
     {
-        public IActionResult Index()
+        private readonly KhumaloCraftDbContext _context;
+
+        public MyWorkController(KhumaloCraftDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Product.ToListAsync());
         }
     }
 }

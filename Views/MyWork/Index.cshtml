@@ -1,40 +1,41 @@
-﻿﻿@{
+﻿@model IEnumerable<Khumalo_Craft_P2.Models.Product>
+@{
     ViewData["Title"] = "MyWork";
 }
 
 <!--
- --------------------------------Student Information----------------------------------
- STUDENT NO.: ST10251759
- Name: Cameron Chetty
- Course: BCAD Year 2
- Module: Cloud Development 1A
- Module Code: CLDV6211
- Assessment: Portfolio of Evidence (POE) Part 1
- Github repo link: https://github.com/VCDN-2024/cldv6211-part-1-st10251759
- --------------------------------Student Information----------------------------------
+--------------------------------Student Information----------------------------------
+STUDENT NO.: ST10251759
+Name: Cameron Chetty
+Course: BCAD Year 2
+Module: Cloud Development 1A
+Module Code: CLDV6211
+Assessment: Portfolio of Evidence (POE) Part 1
+Github repo link: https://github.com/VCDN-2024/cldv6211-part-1-st10251759
+--------------------------------Student Information----------------------------------
 -->
 <!--
- ==============================Code Attribution==================================
+==============================Code Attribution==================================
 
- Author: w3schools
- Link: https://www.w3schools.com/html/
- Date Accessed: 16 March 2024
+Author: w3schools
+Link: https://www.w3schools.com/html/
+Date Accessed: 16 March 2024
 
- Author: HTML Codex
- Link:https://htmlcodex.com/
- Date Accessed: 16 March 2024
+Author: HTML Codex
+Link:https://htmlcodex.com/
+Date Accessed: 16 March 2024
 
- Author: w3schools
- Link: https://www.w3schools.com/css/
- Date Accessed: 16 March 2024
+Author: w3schools
+Link: https://www.w3schools.com/css/
+Date Accessed: 16 March 2024
 
- Author: w3schools
- Link: https://www.w3schools.com/js/
- Date Accessed: 16 March 2024
+Author: w3schools
+Link: https://www.w3schools.com/js/
+Date Accessed: 16 March 2024
 
- *********All Images used throughout project are adapted from Pinterest (https://za.pinterest.com/)*************
+*********All Images used throughout project are adapted from Pinterest (https://za.pinterest.com/)*************
 
- ==============================Code Attribution==================================
+==============================Code Attribution==================================
 -->
 <!--Below is HTML code for the My Work Page with css classes to style the pages-->
 <!-- Page Header Start -->
@@ -61,193 +62,47 @@
                 <div class="col-12 text-center">
                     <ul class="list-inline mb-5" id="portfolio-flters">
                         <li class="mx-2 active" data-filter="*">All</li>
-                        <li class="mx-2" data-filter=".first">Wood Work</li>
-                        <li class="mx-2" data-filter=".second">Beaded Work</li>
-                        <li class="mx-2" data-filter=".third">Leather Goods</li>
-                        <li class="mx-2" data-filter=".fourth">Metal Work</li>
-                        <li class="mx-2" data-filter=".fifth">Textiles</li>
-                        <li class="mx-2" data-filter=".sixth">Ceramics</li>
+                        <li class="mx-2" data-filter=".wood-work">Wood Work</li>
+                        <li class="mx-2" data-filter=".beaded-work">Beaded Work</li>
+                        <li class="mx-2" data-filter=".leather-goods">Leather Goods</li>
+                        <li class="mx-2" data-filter=".metal-work">Metal Work</li>
+                        <li class="mx-2" data-filter=".textiles">Textiles</li>
+                        <li class="mx-2" data-filter=".ceramics">Ceramics</li>
                     </ul>
                 </div>
             </div>
             <div class="row g-4 portfolio-container">
-                <div class="col-lg-4 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-1.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-1.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                    @foreach (var product in Model)
+                    {
+                    <div class="col-lg-4 col-md-6 portfolio-item @product.Category.ToLower() wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="rounded overflow-hidden">
+                            <div class="position-relative overflow-hidden">
+                                <img class="img-fluid w-100 img-h" src="@product.ImageUrlpath" alt="">
+                                <div class="portfolio-overlay">
+                                    <a class="btn btn-square btn-outline-light mx-1" href="@product.ImageUrlpath" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
+                                </div>
+                            </div>
+                            <div class="border border-5 border-light border-top-0 p-4">
+                                <p class="text-primary fw-medium mb-2">@product.Category</p>
+                                <h5 class="lh-base mb-0">@product.Name</h5>
+                                <p class="card-description">@product.ProductDescription</p>
+                                <p class="card-price"><strong>Price: </strong> R @(product.Price?.ToString("0.00"))</p>
+                                    @if (product.Availability == true)
+                                    {
+                                    <div class="availability-box bg-green text-white">Available</div>
+                                    }
+                                    else
+                                    {
+                                    <div class="availability-box bg-red text-white">Out of stock</div>
+                                    }
+                            </div>
+                            <div class="add-to-cart-icon" data-product-id="@product.ProductId">
+                                <!-- "Add to Cart - adds to orderRequests" icon here -->
+                                <i class="fa fa-cart-plus"></i>
                             </div>
                         </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Wood Work</p>
-                            <h5 class="lh-base mb-0">Traditional African Mask</h5>
-                            <p class="card-description">An authentic work of art, with great attention to detail and holds true to the heritage of South African Culture.</p>
-                            <p class="card-price"><strong>Price: </strong> R700.00</p>
-                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item fourth wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-2.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-2.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Metalwork</p>
-                            <h5 class="lh-base mb-0">Copper Cheetah Sculpture</h5>
-                            <p class="card-description">Hand Welded from pure coppper, this exquiste sculture is a materpiece worth being displayed. Perfect Centre-piece </p>
-                            <p class="card-price"><strong>Price: </strong> R200.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item fourth wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-3.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-3.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Metal Work</p>
-                            <h5 class="lh-base mb-0">Beaded Tree Ornament</h5>
-                            <p class="card-description">Constructed using pure copper and white beading. This is a unique and well-crafted centrepiece. </p>
-                            <p class="card-price"><strong>Price: </strong> R250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-4.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-4.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Wood Work</p>
-                            <h5 class="lh-base mb-0">The Floating Statue</h5>
-                            <p class="card-description">A reality defying meticulous wooden marvel. This appears to have its upper body floated in air.</p>
-                            <p class="card-price"><strong>Price: </strong> R300.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item third wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-5.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-5.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Leather Goods</p>
-                            <h5 class="lh-base mb-0">Leather Wallet</h5>
-                            <p class="card-description">Crafted from high-quality leather for a stylish and long-lasting solution for organizing your everyday essentials</p>
-                            <p class="card-price"><strong>Price: </strong> R150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item third wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-6.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-6.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Leather Goods</p>
-                            <h5 class="lh-base mb-0">Designer Handbag</h5>
-                            <p class="card-description">Crafted from genunine leather material and adorned with unique details and made to be long lasting. </p>
-                            <p class="card-price"><strong>Price: </strong> R400.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item first wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-7.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-7.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Wood Work</p>
-                            <h5 class="lh-base mb-0">Girraffe Sculpture</h5>
-                            <p class="card-description">Beautiful wooden girrafe sculture to be displayed in a home or coporate setting, adding a touch of nature.</p>
-                            <p class="card-price"><strong>Price: </strong> R150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-8.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-8.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Beaded Work</p>
-                            <h5 class="lh-base mb-0">Decorative Necklace and Earings</h5>
-                            <p class="card-description">Stunning, vibrantly coloured traditional necklance and earing set. Perfect for any occasion.</p>
-                            <p class="card-price"><strong>Price: </strong> R350.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item fifth wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-9.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-9.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Textiles</p>
-                            <h5 class="lh-base mb-0">Traditioanl Floor Rug</h5>
-                            <p class="card-description">Beautiful and high quality rug that is water absortant and heavy pile. This is easy to clean. Indoor or Outdoor Rug.</p>
-                            <p class="card-price"><strong>Price: </strong> R150.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item sixth wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-10.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-10.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Ceramics</p>
-                            <h5 class="lh-base mb-0">4-pieace Tupperware Set</h5>
-                            <p class="card-description">Ceramic 4 piece tupperware set with tradtional artwork. Heat insulating and nonstick surface. Really durable and easy to clean.</p>
-                            <p class="card-price"><strong>Price: </strong> R350.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 portfolio-item second wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded overflow-hidden">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/img/portfolio-11.jpg" alt="">
-                            <div class="portfolio-overlay">
-                                <a class="btn btn-square btn-outline-light mx-1" href="~/img/portfolio-11.jpg" data-lightbox="portfolio"><i class="fa fa-eye"></i></a>
-                            </div>
-                        </div>
-                        <div class="border border-5 border-light border-top-0 p-4">
-                            <p class="text-primary fw-medium mb-2">Beaded Work</p>
-                            <h5 class="lh-base mb-0">Traditional Beaded Basket</h5>
-                            <p class="card-description">Beautifully designed traditional crafted beaded basket perfect for carrying your items in style. Perfect for using on a picnic or storage. </p>
-                            <p class="card-price"><strong>Price: </strong> R350.00</p>
-                        </div>
-                    </div>
-                </div>
+                    }
             </div>
     </div>
 </div>
-<!-- Projects End -->
