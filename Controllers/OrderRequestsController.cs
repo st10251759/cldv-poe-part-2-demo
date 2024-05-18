@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Khumalo_Craft_P2.Data;
 using Khumalo_Craft_P2.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Khumalo_Craft_P2.Controllers
 {
@@ -16,19 +17,20 @@ namespace Khumalo_Craft_P2.Controllers
         private readonly KhumaloCraftDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
+        
         public OrderRequestsController(KhumaloCraftDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: OrderRequests
         public async Task<IActionResult> Index()
         {
             var khumaloCraftDbContext = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product);
             return View(await khumaloCraftDbContext.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: OrderRequests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,7 +50,7 @@ namespace Khumalo_Craft_P2.Controllers
 
             return View(orderRequest);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: OrderRequests/Create
         public IActionResult Create()
         {
@@ -60,6 +62,7 @@ namespace Khumalo_Craft_P2.Controllers
         // POST: OrderRequests/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderRequestId,OrderId,ProductId,OrderStatus")] OrderRequest orderRequest)
@@ -75,6 +78,7 @@ namespace Khumalo_Craft_P2.Controllers
             return View(orderRequest);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: OrderRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,6 +100,7 @@ namespace Khumalo_Craft_P2.Controllers
         // POST: OrderRequests/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderRequestId,OrderId,ProductId,OrderStatus")] OrderRequest orderRequest)
@@ -130,6 +135,7 @@ namespace Khumalo_Craft_P2.Controllers
             return View(orderRequest);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: OrderRequests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -151,6 +157,7 @@ namespace Khumalo_Craft_P2.Controllers
         }
 
         // POST: OrderRequests/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -166,6 +173,7 @@ namespace Khumalo_Craft_P2.Controllers
         }
 
         //Admin View
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
             var orderRequests = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product).ToList();
@@ -173,6 +181,7 @@ namespace Khumalo_Craft_P2.Controllers
         }
 
         //Proceess the order
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ProcessOrderRequest(int id)
         {
             var orderRequest = await _context.OrderRequests
@@ -195,6 +204,7 @@ namespace Khumalo_Craft_P2.Controllers
             return RedirectToAction("Admin", "OrderRequests");
         }
 
+        [Authorize(Roles = "Client,Admin")]
         public async Task<IActionResult> OrderHistory()
         {
             var user = await _userManager.GetUserAsync(User);
