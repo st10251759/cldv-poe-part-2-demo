@@ -1,9 +1,8 @@
-﻿@model IEnumerable<Khumalo_Craft_P2.Models.Product>
+﻿@model IEnumerable<Khumalo_Craft_P2.Models.OrderRequest>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order Requests Admin";
 }
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -20,51 +19,54 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/AppRoles/">Roles</a>
                 </li>
-                
+
             </ul>
         </div>
     </div>
 </nav>
 
 <div class="container-products">
-    <h1>Product Invetory</h1>
+    <h1>Order Requests</h1>
 
-    <a class="create-new" asp-action="Create">Create New</a>
-
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Availability</th>
-                <th>Image</th>
+                <th>Order Request ID</th>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>User ID</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Order Status</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var orderRequest in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProductDescription)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Availability)</td>
-                    <td><a href="@item.ImageUrlpath" target="_blank">Image</a></td>
-                    <td class="actions">
-                        <a href="@Url.Action("Edit", new { id = item.ProductId })"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="@Url.Action("Details", new { id = item.ProductId })"><i class="fas fa-info-circle"></i> Details</a>
-                        <a href="@Url.Action("Delete", new { id = item.ProductId })"><i class="fas fa-trash-alt"></i> Delete</a>
+                    <td>@orderRequest.OrderRequestId</td>
+                    <td>@orderRequest.Order.OrderId</td>
+                    <td>@orderRequest.Order.OrderDate.ToShortDateString()</td>
+                    <td>@orderRequest.Order.UserId</td>
+                    <td>@orderRequest.Product.Name</td>
+                    <td>@orderRequest.Product.Price</td>
+                    <td>@orderRequest.OrderStatus</td>
+                    <td>
+                        <form asp-controller="OrderRequests" asp-action="ProcessOrderRequest" onsubmit="return confirm('Are you sure you want to process this order?');">
+                            <input type="hidden" name="id" value="@orderRequest.OrderRequestId" />
+                            <input type="hidden" name="newStatus" value="Approved" />
+                            <button type="submit" class="btn btn-primary">Process</button>
+                        </form>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
 
+</div>
 <style>
+
     body {
         background-color: #f5f5f5; /* Light gray background color */
         margin: 0;
@@ -85,10 +87,12 @@
     }
 
     h1 {
+        margin-top: 20px;
         margin-bottom: 20px;
+        color: #333;
     }
 
-    table {
+    .table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
@@ -110,36 +114,36 @@
         justify-content: center;
     }
 
-        .actions a {
+        .actions button {
             margin-right: 10px;
-            color: #fff;
-            text-decoration: none;
-            background-color: #895d35;
-            padding: 4px;
-            border-radius: 2px;
         }
 
-            .actions a:hover {
-                text-decoration: underline;
-            }
-
-    .create-new {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        background-color: #895d35;
+    .btn-primary {
+        background-color: #AB7442;
         color: #fff;
         border: none;
-        border-radius: 5px;
+        padding: 6px 12px;
+        border-radius: 4px;
         cursor: pointer;
-        text-align: center;
-        text-decoration: none;
-        width: 10%;
     }
 
-        .create-new:hover {
+        .btn-primary:hover {
             background-color: #F5DEB3;
-            border-color: #555 !important;
+            border-color: #895d35 !important;
+            color: #895d35;
         }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
 </style>

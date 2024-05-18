@@ -162,6 +162,38 @@ namespace Khumalo_Craft_P2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Admin View
+        public IActionResult Admin()
+        {
+            var orderRequests = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product).ToList();
+            return View(orderRequests);
+        }
+
+        //Proceess the order
+        public async Task<IActionResult> ProcessOrderRequest(int id)
+        {
+            var orderRequest = await _context.OrderRequests
+                .Include(o => o.Order)
+                .Include(o => o.Product)
+                .FirstOrDefaultAsync(o => o.OrderRequestId == id);
+
+            if (orderRequest == null)
+            {
+                return NotFound();
+            }
+
+            // Update the OrderStatus to "Approved"
+            orderRequest.OrderStatus = "Approved";
+
+            // Save the changes to the database
+            await _context.SaveChangesAsync();
+
+            // Redirect back to the OrderRequests Admin page
+            return RedirectToAction("Admin", "OrderRequests");
+        }
+
+
+
         private bool OrderRequestExists(int id)
         {
             return _context.OrderRequests.Any(e => e.OrderRequestId == id);
