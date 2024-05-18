@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Khumalo_Craft_P2.Data;
 using Khumalo_Craft_P2.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Khumalo_Craft_P2.Controllers
 {
     public class OrderRequestsController : Controller
     {
         private readonly KhumaloCraftDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public OrderRequestsController(KhumaloCraftDbContext context)
+        public OrderRequestsController(KhumaloCraftDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: OrderRequests
@@ -192,7 +195,26 @@ namespace Khumalo_Craft_P2.Controllers
             return RedirectToAction("Admin", "OrderRequests");
         }
 
+        public async Task<IActionResult> OrderHistory()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = await _userManager.GetUserIdAsync(user);
 
+            var orders = await _context.Orders
+                .Where(o => o.UserId == userId)
+                .SelectMany(o => o.OrderRequests)
+                .Select(or => new OrderHistoryViewModel
+                {
+                    OrderId = or.Order.OrderId,
+                    ProductName = or.Product.Name,
+                    ProductPrice = (decimal)or.Product.Price,
+                    OrderDate = or.Order.OrderDate,
+                    OrderStatus = or.OrderStatus
+                })
+                .ToListAsync();
+
+            return View(orders);
+        }
 
         private bool OrderRequestExists(int id)
         {
