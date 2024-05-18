@@ -106,3 +106,48 @@ Date Accessed: 16 March 2024
             </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.add-to-cart-icon').on('click', function () {
+                var productId = $(this).data('product-id');
+
+                // Check product availability
+                $.ajax({
+                    url: '@Url.Action("CheckProductAvailability", "MyWork")',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            // If product is available, proceed to add to cart
+                            $.ajax({
+                                url: '@Url.Action("CreateOrder", "MyWork")',
+                                type: 'POST',
+                                data: { productId: productId },
+                                success: function (response) {
+                                    if (response.success) {
+                                        alert('Product added to cart successfully.');
+                                    } else {
+                                        alert('Failed to add product to cart.');
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert('Error adding product to cart: ' + xhr.responseText);
+                                }
+                            });
+                        } else {
+                            // Product is not available
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error checking product availability: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}
+}
