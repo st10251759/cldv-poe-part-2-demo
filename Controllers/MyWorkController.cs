@@ -1,9 +1,11 @@
 ﻿using Khumalo_Craft_P2.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Khumalo_Craft_P2.Controllers
 {
+    [Authorize(Roles = "Client,Admin")]
     public class MyWorkController : Controller
     {
         private readonly KhumaloCraftDbContext _context;
