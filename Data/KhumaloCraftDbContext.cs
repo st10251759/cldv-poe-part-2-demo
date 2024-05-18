@@ -14,6 +14,9 @@ namespace Khumalo_Craft_P2.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+        public virtual DbSet<Order> Orders { get; set; }
+
+        public virtual DbSet<OrderRequest> OrderRequests { get; set; }
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    var decimalProps = modelBuilder.Model
