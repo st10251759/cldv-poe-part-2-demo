@@ -16,7 +16,9 @@ namespace Khumalo_Craft_P2
             builder.Services.AddDbContext<KhumaloCraftDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftDEV")));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<KhumaloCraftDbContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<KhumaloCraftDbContext>();
 
             var app = builder.Build();
 
