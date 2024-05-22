@@ -23,13 +23,24 @@ namespace Khumalo_Craft_P2.Controllers
             _context = context;
             _userManager = userManager;
         }
+
         [Authorize(Roles = "Admin")]
         // GET: OrderRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var khumaloCraftDbContext = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product);
-            return View(await khumaloCraftDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var orderRequests = from o in _context.OrderRequests.Include(o => o.Order).Include(o => o.Product)
+                                select o;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orderRequests = orderRequests.Where(o => o.OrderId.ToString() == searchString);
+            }
+
+            return View(await orderRequests.ToListAsync());
         }
+
         [Authorize(Roles = "Admin")]
         // GET: OrderRequests/Details/5
         public async Task<IActionResult> Details(int? id)

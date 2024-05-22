@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Khumalo_Craft_P2.Models.OrderRequest>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order Requests";
 }
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,47 +27,38 @@
 </nav>
 
 <div class="container-products">
-<h1>Index</h1>
+    <h1>Order Requests</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Order)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderRequestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OrderRequestId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OrderRequestId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <form asp-controller="OrderRequests" asp-action="Index" method="get" class="form-inline mb-4">
+        <div class="form-group d-flex align-items-center mx-sm-3 mb-2">
+            <label for="searchString" class="sr-only">Search by Order ID:</label>
+            <input type="text" class="form-control form-control-sm" id="searchString" name="searchString" placeholder="Search by Order ID" value="@ViewData["CurrentFilter"]" />
+            <button type="submit" class="btn btn-primary btn-sm ml-2">Search</button>
+        </div>
+    </form>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order Request ID</th>
+                <th>Order ID</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.OrderRequestId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.OrderId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <style>
     body {
@@ -83,6 +75,44 @@
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
+    .form-inline .form-control {
+        margin-right: 10px;
+    }
+
+    /* Reduce input size */
+    .form-control-sm {
+        max-width: 200px;
+    }
+
+    /* Add some padding and border-radius for a sleeker look */
+    .form-group {
+        position: relative;
+        padding: 0.5rem;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+        /* Add some shadow for better separation from background */
+        .form-group .form-control {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+    /* Improve button appearance */
+    .btn-primary {
+        background-color: #AB7442;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #F5DEB3;
+            border-color: #895d35 !important;
+            color: #895d35;
+        }
 
     main {
         background-color: #D2B48C;
@@ -146,4 +176,4 @@
             background-color: #F5DEB3;
             border-color: #555 !important;
         }
-</style>            
+</style>
