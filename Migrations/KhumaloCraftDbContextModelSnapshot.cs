@@ -41,7 +41,7 @@ namespace Khumalo_Craft_P2.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Khumalo_Craft_P2.Models.OrderRequest", b =>
@@ -67,7 +67,7 @@ namespace Khumalo_Craft_P2.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderRequests");
+                    b.ToTable("OrderRequests", (string)null);
                 });
 
             modelBuilder.Entity("Khumalo_Craft_P2.Models.Product", b =>
@@ -98,7 +98,7 @@ namespace Khumalo_Craft_P2.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

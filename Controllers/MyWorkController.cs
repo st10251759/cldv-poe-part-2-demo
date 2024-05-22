@@ -33,26 +33,26 @@ namespace Khumalo_Craft_P2.Controllers
             var userId = await _userManager.GetUserIdAsync(user);
 
             var product = _context.Product.FirstOrDefault(p => p.ProductId == productId && p.Availability == true);
-
             // Check if there's an existing open order for the user
             var openOrder = await _context.Orders
-                .Include(o => o.OrderRequests)
-                .FirstOrDefaultAsync(o => o.UserId == user.Id && !o.OrderRequests.Any(or => or.OrderStatus == "Shopping"));
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == "Shopping");
 
-            // If user is authenticated, add the item to the cart (Orders and OrderRequestDetails tables)
-            var order = new Order
+            if (openOrder == null)
             {
-                UserId =userId,
-                OrderDate = DateTime.Now
-            };
-            _context.Orders.Add(order);
-            _context.SaveChanges();
-
-            var orderId = order.OrderId;
+                // If no open order exists, create a new one
+                openOrder = new Order
+                {
+                    UserId = userId,
+                    OrderDate = DateTime.Now,
+                    Status = "Shopping"
+                };
+                _context.Orders.Add(openOrder);
+                await _context.SaveChangesAsync();
+            }
 
             var orderRequest = new OrderRequest
             {
-                OrderId = orderId,
+                OrderId = openOrder.OrderId,
                 ProductId = productId,
                 OrderStatus = "Pending"
             };
@@ -61,11 +61,47 @@ namespace Khumalo_Craft_P2.Controllers
             // Update product availability to "Out of Stock"
             product.Availability = false;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
+        public async Task<IActionResult> Cart()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            var openOrder = await _context.Orders
+                .Include(o => o.OrderRequests)
+                .ThenInclude(or => or.Product)
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == "Shopping");
+
+            return View(openOrder);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            var openOrder = await _context.Orders
+                .Include(o => o.OrderRequests)
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == "Shopping");
+
+            if (openOrder == null || !openOrder.OrderRequests.Any())
+            {
+                return Json(new { success = false, message = "No items in cart" });
+            }
+
+            openOrder.Status = "Pending";
+            await _context.SaveChangesAsync();
 
             return Json(new { success = true });
 
         }
+
+
 
         [HttpPost]
         public IActionResult CheckProductAvailability(int productId)

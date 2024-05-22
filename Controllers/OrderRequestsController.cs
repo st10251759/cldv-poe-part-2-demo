@@ -172,59 +172,59 @@ namespace Khumalo_Craft_P2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //Admin View
-        [Authorize(Roles = "Admin")]
-        public IActionResult Admin()
-        {
-            var orderRequests = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product).ToList();
-            return View(orderRequests);
-        }
+        ////Admin View
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Admin()
+        //{
+        //    var orderRequests = _context.OrderRequests.Include(o => o.Order).Include(o => o.Product).ToList();
+        //    return View(orderRequests);
+        //}
 
-        //Proceess the order
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ProcessOrderRequest(int id)
-        {
-            var orderRequest = await _context.OrderRequests
-                .Include(o => o.Order)
-                .Include(o => o.Product)
-                .FirstOrDefaultAsync(o => o.OrderRequestId == id);
+        ////Proceess the order
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> ProcessOrderRequest(int id)
+        //{
+        //    var orderRequest = await _context.OrderRequests
+        //        .Include(o => o.Order)
+        //        .Include(o => o.Product)
+        //        .FirstOrDefaultAsync(o => o.OrderRequestId == id);
 
-            if (orderRequest == null)
-            {
-                return NotFound();
-            }
+        //    if (orderRequest == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            // Update the OrderStatus to "Approved"
-            orderRequest.OrderStatus = "Approved";
+        //    // Update the OrderStatus to "Approved"
+        //    orderRequest.OrderStatus = "Approved";
 
-            // Save the changes to the database
-            await _context.SaveChangesAsync();
+        //    // Save the changes to the database
+        //    await _context.SaveChangesAsync();
 
-            // Redirect back to the OrderRequests Admin page
-            return RedirectToAction("Admin", "OrderRequests");
-        }
+        //    // Redirect back to the OrderRequests Admin page
+        //    return RedirectToAction("Admin", "OrderRequests");
+        //}
 
-        [Authorize(Roles = "Client,Admin")]
-        public async Task<IActionResult> OrderHistory()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = await _userManager.GetUserIdAsync(user);
+        //[Authorize(Roles = "Client,Admin")]
+        //public async Task<IActionResult> OrderHistory()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    var userId = await _userManager.GetUserIdAsync(user);
 
-            var orders = await _context.Orders
-                .Where(o => o.UserId == userId)
-                .SelectMany(o => o.OrderRequests)
-                .Select(or => new OrderHistoryViewModel
-                {
-                    OrderId = or.Order.OrderId,
-                    ProductName = or.Product.Name,
-                    ProductPrice = (decimal)or.Product.Price,
-                    OrderDate = or.Order.OrderDate,
-                    OrderStatus = or.OrderStatus
-                })
-                .ToListAsync();
+        //    var orders = await _context.Orders
+        //        .Where(o => o.UserId == userId)
+        //        .SelectMany(o => o.OrderRequests)
+        //        .Select(or => new OrderHistoryViewModel
+        //        {
+        //            OrderId = or.Order.OrderId,
+        //            ProductName = or.Product.Name,
+        //            ProductPrice = (decimal)or.Product.Price,
+        //            OrderDate = or.Order.OrderDate,
+        //            OrderStatus = or.OrderStatus
+        //        })
+        //        .ToListAsync();
 
-            return View(orders);
-        }
+        //    return View(orders);
+        //}
 
         private bool OrderRequestExists(int id)
         {

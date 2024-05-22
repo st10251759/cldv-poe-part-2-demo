@@ -1,8 +1,5 @@
-﻿@model IEnumerable<Khumalo_Craft_P2.Models.OrderRequest>
+﻿@model IEnumerable<Khumalo_Craft_P2.Models.OrderAdminViewModel>
 
-@{
-    ViewData["Title"] = "Order Requests Admin";
-}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -11,10 +8,10 @@
                     <a class="nav-link" href="/Products">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/OrderRequests/Admin">Order Requests</a>
+                    <a class="nav-link" href="/Orders/Admin">Order Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Users">Clients</a>
+                    <a class="nav-link" href="/OrderRequests">Order Requests</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/AppRoles/">Roles</a>
@@ -26,48 +23,43 @@
 </nav>
 
 <div class="container-products">
-    <h1>Order Requests</h1>
+<h2>Admin - Orders</h2>
 
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>User Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
             <tr>
-                <th>Order Request ID</th>
-                <th>Order ID</th>
-                <th>Order Date</th>
-                <th>User ID</th>
-                <th>Product Name</th>
-                <th>Product Price</th>
-                <th>Order Status</th>
-                <th>Action</th>
+                <td>@order.OrderId</td>
+                <td>@order.OrderDate</td>
+                <td>@order.UserEmail</td>
+                <td>@order.Status</td>
+                <td>
+                    @if (order.Status == "Pending")
+                    {
+                        <a asp-action="ProcessOrder" asp-route-id="@order.OrderId" class="btn btn-primary">Approve Order</a>
+                    }
+                    else
+                    {
+                        <span>Approved</span>
+                    }
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderRequest in Model)
-            {
-                <tr>
-                    <td>@orderRequest.OrderRequestId</td>
-                    <td>@orderRequest.Order.OrderId</td>
-                    <td>@orderRequest.Order.OrderDate.ToShortDateString()</td>
-                    <td>@orderRequest.Order.UserId</td>
-                    <td>@orderRequest.Product.Name</td>
-                    <td>@orderRequest.Product.Price</td>
-                    <td>@orderRequest.OrderStatus</td>
-                    <td>
-                        <form asp-controller="OrderRequests" asp-action="ProcessOrderRequest" onsubmit="return confirm('Are you sure you want to process this order?');">
-                            <input type="hidden" name="id" value="@orderRequest.OrderRequestId" />
-                            <input type="hidden" name="newStatus" value="Approved" />
-                            <button type="submit" class="btn btn-primary">Process</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
+        }
+    </tbody>
+</table>
 </div>
 <style>
-
-    body {
+                body {
         background-color: #f5f5f5; /* Light gray background color */
         margin: 0;
         padding: 0;
