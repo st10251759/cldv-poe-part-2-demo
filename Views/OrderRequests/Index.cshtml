@@ -24,6 +24,8 @@
         </div>
     </div>
 </nav>
+
+<div class="container-products">
 <h1>Index</h1>
 
 <p>
@@ -65,3 +67,83 @@
 }
     </tbody>
 </table>
+</div>
+<style>
+    body {
+        background-color: #f5f5f5; /* Light gray background color */
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-products {
+        width: 80%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+        background-color: #D2B48C;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+    }
+
+        .actions a {
+            margin-right: 10px;
+            color: #fff;
+            text-decoration: none;
+            background-color: #895d35;
+            padding: 4px;
+            border-radius: 2px;
+        }
+
+            .actions a:hover {
+                text-decoration: underline;
+            }
+
+    .create-new {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        background-color: #895d35;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        width: 10%;
+    }
+
+        .create-new:hover {
+            background-color: #F5DEB3;
+            border-color: #555 !important;
+        }
+</style>            
