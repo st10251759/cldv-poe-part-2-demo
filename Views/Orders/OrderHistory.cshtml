@@ -3,30 +3,32 @@
     ViewData["Title"] = "Order History";
 }
 <div class="container-products">
-<h2>Order History</h2>
+    <h2>Order History</h2>
 
     <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Order Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
+        <thead>
             <tr>
-                <td>@order.OrderId</td>
-                <td>@order.OrderDate</td>
-                <td>@order.Status</td>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Order Status</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate</td>
+                    <td>R @order.TotalPrice</td>
+                    <td>@order.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <style>
-body {
+    body {
         font-family: Arial, sans-serif;
         background-color: #f8f9fa; /* Light gray background color */
         margin: 0;

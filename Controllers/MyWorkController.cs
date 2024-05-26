@@ -80,7 +80,7 @@ namespace Khumalo_Craft_P2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout()
+        public async Task<IActionResult> Checkout(decimal totalPrice)
         {
             var user = await _userManager.GetUserAsync(User);
             var userId = await _userManager.GetUserIdAsync(user);
@@ -93,6 +93,9 @@ namespace Khumalo_Craft_P2.Controllers
             {
                 return Json(new { success = false, message = "No items in cart" });
             }
+
+            // Calculate total price
+            openOrder.TotalPrice = totalPrice;
 
             openOrder.Status = "Pending";
             await _context.SaveChangesAsync();

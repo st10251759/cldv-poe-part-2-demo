@@ -12,6 +12,8 @@ namespace Khumalo_Craft_P2.Models
 
         public string? Status { get; set; }
 
+        public decimal? TotalPrice { get; set; }
+
         public virtual ICollection<OrderRequest> OrderRequests { get; set; } = new List<OrderRequest>();
 
         [ForeignKey("UserId")]

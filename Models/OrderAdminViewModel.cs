@@ -6,5 +6,7 @@
         public DateTime OrderDate { get; set; }
         public string UserEmail { get; set; }
         public string? Status { get; set; }
+
+        public decimal TotalPrice { get; set; }
     }
 }

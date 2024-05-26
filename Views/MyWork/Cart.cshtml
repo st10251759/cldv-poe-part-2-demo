@@ -80,6 +80,7 @@
             color: #777;
         }
     </style>
+
 </head>
 <body>
     <div class="cart-container">
@@ -110,6 +111,8 @@
             <div class="total-price">
                 Total Price: R @Model.OrderRequests.Sum(or => or.Product.Price ?? 0).ToString("0.00")
             </div>
+            <!-- Hidden input to store total price -->
+            <input type="hidden" id="totalPrice" value="@Model.OrderRequests.Sum(or => or.Product.Price ?? 0).ToString("0.00")" />
             <button class="checkout-button" onclick="checkout()">Checkout</button>
         }
         else
@@ -121,7 +124,8 @@
     @section Scripts {
         <script>
             function checkout() {
-                $.post('/MyWork/Checkout', function (response) {
+                var totalPrice = document.getElementById('totalPrice').value;
+                $.post('/MyWork/Checkout', { totalPrice: totalPrice }, function (response) {
                     if (response.success) {
                         alert('Order placed successfully');
                         window.location.href = '/MyWork/Index'; // Redirect to product listing after checkout

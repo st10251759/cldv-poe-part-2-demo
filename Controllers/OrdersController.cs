@@ -64,7 +64,8 @@ namespace Khumalo_Craft_P2.Controllers
                 OrderId = o.OrderId,
                 OrderDate = o.OrderDate,
                 UserEmail = o.User.Email,
-                Status = o.Status
+                Status = o.Status,
+                TotalPrice = (decimal)o.TotalPrice
             }).ToList();
 
             return View(orderViewModels);
@@ -210,7 +211,8 @@ namespace Khumalo_Craft_P2.Controllers
                 {
                     OrderId = o.OrderId,
                     OrderDate = o.OrderDate,
-                    Status = o.Status
+                    Status = o.Status,
+                    TotalPrice = (decimal)o.TotalPrice
                 })
                 .ToListAsync();
 
