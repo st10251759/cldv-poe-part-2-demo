@@ -13,8 +13,11 @@ namespace Khumalo_Craft_P2
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //builder.Services.AddDbContext<KhumaloCraftDbContext>(options =>
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftDEV")));
+
             builder.Services.AddDbContext<KhumaloCraftDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftDEV")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("KhumaloCraftLive")));
 
             builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders()
                 .AddRoles<IdentityRole>()
