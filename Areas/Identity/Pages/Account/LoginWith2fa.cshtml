@@ -4,17 +4,17 @@
     ViewData["Title"] = "Two-factor authentication";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
+<h1 class="text-align">@ViewData["Title"]</h1>
+
+<p class="text-align">Your login is protected with an Two Factor authetiation via Email. Enter your authenticator code below. Please check Spam if having issues with getting the code!</p>
+<div class="row row-auth">
+    <div class="col-md-4 auth">
         <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
             <input asp-for="RememberMe" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-                <label asp-for="Input.TwoFactorCode" class="form-label"></label>
+                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off"/>
+               @*  <label asp-for="Input.TwoFactorCode" class="form-label"></label> *@
                 <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
             </div>
             <div class="checkbox mb-3">
@@ -24,16 +24,78 @@
                 </label>
             </div>
             <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                <button type="submit" class="w-100 btn btn-lg btn-auth">Log in</button>
             </div>
         </form>
     </div>
 </div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    .text-align {
+        text-align: center;
+    }
+
+    /* Center the form */
+    .row-auth {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 32vh !important;
+    }
+
+    /* Form style */
+    .auth {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
+
+    /* Form label style */
+    .form-label {
+        margin-top: 1rem;
+        color: #343a40;
+    }
+
+    /* Form control style */
+    .form-control {
+        border: 1px solid #ced4da;
+        padding: 10px;
+        border-radius: 4px;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    /* Button style */
+    .btn-auth {
+        background-color: #895d35;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+        .btn-auth:hover {
+            background-color: #F5DEB3;
+        }
+
+    /* Recovery code link style */
+    #recovery-code-login {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        #recovery-code-login:hover {
+            text-decoration: underline;
+        }
+</style>
