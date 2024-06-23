@@ -20,7 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/AppRoles/">Roles</a>
                 </li>
-                
+
             </ul>
         </div>
     </div>
@@ -29,7 +29,21 @@
 <div class="container-products">
     <h1>Product Inventory</h1>
 
+
+
     <a class="create-new" asp-action="Create">Create New</a>
+
+
+    <div class="filter-container">
+        <p>Filter By Category:</p>
+        @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+        {
+            <div class="form-group">
+                @Html.DropDownList("category", ViewBag.Category as SelectList, "All Categories", new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        }
+    </div>
 
     <table>
         <thead>
@@ -104,6 +118,32 @@
         background-color: #f2f2f2;
         font-weight: bold;
     }
+
+    .filter-container {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        margin-top: 8px;
+        background-color: #895d35;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        position: relative;
+        bottom: 7px;
+    }
+
+        .btn-primary:hover {
+            background-color: #F5DEB3;
+        }
 
     .actions {
         display: flex;
