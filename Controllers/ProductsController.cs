@@ -22,9 +22,25 @@ namespace Khumalo_Craft_P2.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        // GET: Products
+        public IActionResult Index(string category)
         {
-            return View(await _context.Product.ToListAsync());
+            IQueryable<string> categoryQuery = from p in _context.Product
+                                               orderby p.Category
+                                               select p.Category;
+
+            var distinctCategories = categoryQuery.Distinct().ToList();
+
+            ViewBag.Category = new SelectList(distinctCategories);
+
+            IQueryable<Product> products = _context.Product;
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                products = products.Where(p => p.Category == category);
+            }
+
+            return View(products.ToList());
         }
 
         // GET: Products/Details/5
